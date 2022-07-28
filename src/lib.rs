@@ -220,7 +220,7 @@ where
         let mut bytes: [u8; 3] = [0, 0, 0];
         self.i2c.write_read(self.address, &[Register::PSR_B2.addr()], &mut bytes)?;
 
-        let pressure: i32 = (((bytes[0] as i32) << 24) | ((bytes[1] as i32) << 16) | (bytes[2] as i32) << 8) >> 8;
+        let pressure: i32 = ((bytes[0] as u32) << 16) | ((bytes[1] as u32) << 8) | (bytes[2] as u32);
         let pressure = self.get_twos_complement(pressure, 24);
 
         Ok(pressure)
